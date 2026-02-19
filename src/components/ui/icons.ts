@@ -50,6 +50,7 @@ export { Brain as BrainIcon } from 'lucide-react';
 export { BookOpen as BookIcon } from 'lucide-react';
 export { ChefHat as ChefHatIcon } from 'lucide-react';
 export { Dumbbell as ExerciseIcon } from 'lucide-react';
+export { Activity as ActivityIcon } from 'lucide-react';
 export { Heart as HeartIcon } from 'lucide-react';
 export { Globe as GlobeIcon } from 'lucide-react';
 export { Music as MusicIcon } from 'lucide-react';

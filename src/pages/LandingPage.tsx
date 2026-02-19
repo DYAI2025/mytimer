@@ -10,7 +10,8 @@ import {
   WatchIcon, 
   HourglassIcon,
   GlobeIcon,
-  ChefHatIcon
+  ChefHatIcon,
+  ActivityIcon
 } from '@/components/ui/icons';
 import styles from './LandingPage.module.css';
 
@@ -86,6 +87,14 @@ const FEATURED_TIMERS = [
     icon: ChefHatIcon,
     href: '#/cooking',
     color: '#F97316',
+  },
+  {
+    id: 'interval',
+    title: 'Interval',
+    description: 'HIIT/Tabata work-rest cycles',
+    icon: ActivityIcon,
+    href: '#/interval',
+    color: '#DC2626',
   },
   {
     id: 'breathing',

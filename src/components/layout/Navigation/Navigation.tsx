@@ -13,7 +13,8 @@ import {
   HourglassIcon,
   WatchIcon,
   GlobeIcon,
-  ChefHatIcon
+  ChefHatIcon,
+  ActivityIcon
 } from '@/components/ui/icons';
 import styles from './Navigation.module.css';
 
@@ -28,6 +29,7 @@ const NAV_LINKS = [
   { href: '#/chess', label: 'Chess', icon: ClockIcon },
   { href: '#/world', label: 'World', icon: GlobeIcon },
   { href: '#/cooking', label: 'Cooking', icon: ChefHatIcon },
+  { href: '#/interval', label: 'Interval', icon: ActivityIcon },
   { href: '#/breathing', label: 'Breathing', icon: WindIcon },
 ];
 

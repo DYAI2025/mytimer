@@ -32,6 +32,7 @@ const TimeSince = lazy(() => import('@/pages/timer/TimeSince'));
 const ChessClock = lazy(() => import('@/pages/timer/ChessClock'));
 const WorldClock = lazy(() => import('@/pages/timer/WorldClock'));
 const CookingTimer = lazy(() => import('@/pages/timer/CookingTimer'));
+const IntervalTimer = lazy(() => import('@/pages/timer/IntervalTimer'));
 
 // Simple hash router
 function useHashRouter() {
@@ -80,6 +81,8 @@ export function Router() {
         return <WorldClock />;
       case '/cooking':
         return <CookingTimer />;
+      case '/interval':
+        return <IntervalTimer />;
       default:
         return (
           <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
