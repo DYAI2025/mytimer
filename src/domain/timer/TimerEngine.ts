@@ -33,8 +33,16 @@ export class TimerEngine {
     this.state.isPaused = false;
     this.state.startedAt = now;
 
-    if (this.config.type === 'countdown' && this.config.duration) {
+    if (this.config.type === 'countdown' && this.config.duration !== undefined) {
       this.state.endAt = now + this.config.duration;
+      
+      // BUG-002 FIX: Handle zero duration immediately
+      if (this.config.duration === 0) {
+        this.state.remaining = 0;
+        this.state.isRunning = false;
+        this.config.onComplete?.();
+        return;
+      }
     }
 
     this.tick();
@@ -72,6 +80,11 @@ export class TimerEngine {
 
     if (this.config.type === 'countdown' && this.state.endAt) {
       this.state.remaining = Math.max(0, this.state.endAt - now);
+      
+      // BUG-001 FIX: Track elapsed time for countdown timers
+      if (this.state.startedAt) {
+        this.state.elapsed = now - this.state.startedAt;
+      }
 
       if (this.state.remaining === 0) {
         this.state.isRunning = false;
@@ -94,7 +107,12 @@ export class TimerEngine {
   }
 
   destroy() {
-    if (this.rafId) cancelAnimationFrame(this.rafId);
+    // BUG-003 FIX: Reset isRunning state when destroying
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    this.state.isRunning = false;
   }
 }
 
