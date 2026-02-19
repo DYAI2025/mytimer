@@ -36,16 +36,22 @@
   color: var(--aurora-cyan);
 }
 
-.desktopLinks {
+.desktopNav {
   display: none;
-  list-style: none;
-  gap: var(--space-6);
+  align-items: center;
+  gap: var(--space-4);
 }
 
 @media (min-width: 768px) {
-  .desktopLinks {
+  .desktopNav {
     display: flex;
   }
+}
+
+.desktopLinks {
+  display: flex;
+  list-style: none;
+  gap: var(--space-4);
 }
 
 .navLink {
@@ -103,4 +109,25 @@
   .mobileLinks {
     display: none;
   }
+}
+
+.settingsBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: var(--space-2);
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settingsBtn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--aurora-cyan);
 }

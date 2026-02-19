@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { PlayIcon, PauseIcon, ResetIcon, FlagIcon } from '@/components/ui/icons';
 import styles from './TimeSince.module.css';
 
@@ -93,6 +94,21 @@ export default function TimeSince() {
       ]);
     }
   }, [isRunning, elapsed, lapCount]);
+
+  // Keyboard shortcuts
+  const handleStartPause = useCallback(() => {
+    if (isRunning) {
+      handlePause();
+    } else {
+      handleStart();
+    }
+  }, [isRunning, handleStart, handlePause]);
+
+  useKeyboardShortcuts({
+    onStartPause: handleStartPause,
+    onReset: handleReset,
+    onLap: handleLap,
+  });
 
   return (
     <div className={`container ${styles.page}`}>

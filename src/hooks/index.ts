@@ -1,2 +1,7 @@
-export * from './useTimerEngine';
-export * from './useThrottledTimer';
+/**
+ * Hooks Index
+ */
+
+export { useTimerEngine } from './useTimerEngine';
+export { useThrottledTimerDisplay } from './useThrottledTimer';
+export { useKeyboardShortcuts } from './useKeyboardShortcuts';

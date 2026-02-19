@@ -86,3 +86,21 @@
   color: var(--ocean-deep);
   border-color: var(--aurora-cyan);
 }
+
+.customBtn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--aurora-cyan);
+  font-size: var(--type-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.customBtn:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: var(--aurora-cyan);
+  transform: translateY(-2px);
+}

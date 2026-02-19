@@ -3,6 +3,7 @@
  */
 
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { audioService } from '@/utils/audio';
 import type { UserSettings, TimerTypeId } from '@/types';
 
 const DEFAULT_SETTINGS: UserSettings = {
@@ -55,6 +56,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       // Ignore storage errors
     }
   }, [settings]);
+
+  // Sync audio service with settings
+  useEffect(() => {
+    audioService.setVolume(settings.soundVolume);
+    audioService.setMuted(!settings.soundEnabled);
+    audioService.setSoundType(settings.soundType);
+  }, [settings.soundVolume, settings.soundEnabled, settings.soundType]);
 
   const updateSettings = useMemo(
     () => (updates: Partial<UserSettings>) => {

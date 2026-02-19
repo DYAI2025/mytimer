@@ -4,6 +4,9 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useTimerEngine } from '@/hooks/useTimerEngine';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { useSettings } from '@/contexts/SettingsContext';
+import { audioService, showNotification, updatePageTitle, vibrateDevice, requestNotificationPermission } from '@/utils/audio';
 import { TimerDisplay } from '@/components/shared/TimerDisplay/TimerDisplay';
 import { ProgressRing } from '@/components/shared/ProgressRing/ProgressRing';
 import { TimerControls } from '@/components/shared/TimerControls/TimerControls';
@@ -20,17 +23,49 @@ interface PhaseConfig {
 const PHASES: Record<PomodoroPhase, PhaseConfig> = {
   work: { label: 'Focus', duration: 25 * 60 * 1000, color: '#00D9FF' },
   shortBreak: { label: 'Short Break', duration: 5 * 60 * 1000, color: '#10B981' },
-  longBreak: { label: 'Long Break', duration: 15 * 60 * 1000, color: '#8B5CF6' },
+  longBreak: { label: 'Long Break', duration: 20 * 60 * 1000, color: '#8B5CF6' },
 };
 
 export default function PomodoroTimer() {
+  const { settings } = useSettings();
   const [phase, setPhase] = useState<PomodoroPhase>('work');
   const [completedPomodoros, setCompletedPomodoros] = useState(0);
+  const [hasRequestedPermission, setHasRequestedPermission] = useState(false);
   
   const currentPhase = PHASES[phase];
+
+  const handleTimerComplete = useCallback(() => {
+    // Play interval sound
+    if (settings.soundEnabled) {
+      audioService.play();
+    }
+
+    // Determine next phase and notification message
+    let notificationMessage = '';
+    if (phase === 'work') {
+      const nextPomodoros = completedPomodoros + 1;
+      const nextPhase = nextPomodoros % 4 === 0 ? 'long' : 'short';
+      notificationMessage = `Work session complete! Take a ${nextPhase} break.`;
+    } else {
+      notificationMessage = `Break complete! Ready to focus again?`;
+    }
+
+    // Show notification
+    if (settings.notificationsEnabled) {
+      showNotification('Pomodoro Update', notificationMessage);
+    }
+
+    // Update page title
+    updatePageTitle(`⏰ ${notificationMessage} - Timer Collection`);
+
+    // Vibrate
+    vibrateDevice([200, 100, 200]);
+  }, [settings, phase, completedPomodoros]);
+
   const { state, formattedTime, progress, start, pause, resume, reset } = useTimerEngine({
     type: 'countdown',
     duration: currentPhase.duration,
+    onComplete: handleTimerComplete,
   });
 
   // Handle phase transitions when timer completes
@@ -56,6 +91,30 @@ export default function PomodoroTimer() {
     reset();
     setPhase('work');
   }, [reset]);
+
+  const handleStart = useCallback(() => {
+    if (!hasRequestedPermission && settings.notificationsEnabled) {
+      requestNotificationPermission();
+      setHasRequestedPermission(true);
+    }
+    start();
+  }, [start, hasRequestedPermission, settings.notificationsEnabled]);
+
+  // Keyboard shortcuts
+  const handleStartPause = useCallback(() => {
+    if (state.isRunning) {
+      pause();
+    } else if (state.isPaused) {
+      resume();
+    } else {
+      handleStart();
+    }
+  }, [state.isRunning, state.isPaused, handleStart, pause, resume]);
+
+  useKeyboardShortcuts({
+    onStartPause: handleStartPause,
+    onReset: handleReset,
+  });
 
   return (
     <div className={`container ${styles.page}`}>
@@ -96,7 +155,7 @@ export default function PomodoroTimer() {
         <TimerControls
           isRunning={state.isRunning}
           isPaused={state.isPaused}
-          onStart={start}
+          onStart={handleStart}
           onPause={pause}
           onResume={resume}
           onReset={handleReset}

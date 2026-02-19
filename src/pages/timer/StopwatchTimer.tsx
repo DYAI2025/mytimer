@@ -5,6 +5,7 @@
 import { useState, useCallback } from 'react';
 import { formatTime } from '@/domain/timer/TimerEngine';
 import { useTimerEngine } from '@/hooks/useTimerEngine';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { TimerDisplay } from '@/components/shared/TimerDisplay/TimerDisplay';
 import { PlayIcon, PauseIcon, FlagIcon, RotateCcwIcon } from '@/components/ui/icons';
 import styles from './StopwatchTimer.module.css';
@@ -37,6 +38,23 @@ export default function StopwatchTimer() {
     reset();
     setLaps([]);
   }, [reset]);
+
+  // Keyboard shortcuts
+  const handleStartPause = useCallback(() => {
+    if (state.isRunning) {
+      pause();
+    } else if (state.isPaused) {
+      resume();
+    } else {
+      start();
+    }
+  }, [state.isRunning, state.isPaused, start, pause, resume]);
+
+  useKeyboardShortcuts({
+    onStartPause: handleStartPause,
+    onReset: handleReset,
+    onLap: handleLap,
+  });
 
   return (
     <div className={`container ${styles.page}`}>
