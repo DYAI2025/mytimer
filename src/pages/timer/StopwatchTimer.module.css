@@ -1,0 +1,128 @@
+.page {
+  padding: var(--space-8) var(--space-4);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: var(--type-base);
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: calc(-1 * var(--space-6));
+}
+
+.timerContainer {
+  padding: var(--space-8);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-fast);
+  min-width: 88px;
+  min-height: 44px;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-purple));
+  color: var(--ocean-deep);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+}
+
+.primary:hover {
+  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.4);
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.lapsContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.lapsTitle {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.lapsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.lapItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lapNumber {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+}
+
+.lapTime {
+  font-family: var(--font-mono);
+  font-size: var(--type-base);
+  color: var(--aurora-cyan);
+}

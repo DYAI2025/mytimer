@@ -1,0 +1,88 @@
+.page {
+  padding: var(--space-8) var(--space-4);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: var(--type-base);
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: calc(-1 * var(--space-6));
+}
+
+.timerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressRing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.displayOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.presets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.presetButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.presetBtn {
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--type-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.presetBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.presetBtn.active {
+  background: var(--aurora-cyan);
+  color: var(--ocean-deep);
+  border-color: var(--aurora-cyan);
+}

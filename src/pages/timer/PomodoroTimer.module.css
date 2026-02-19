@@ -1,0 +1,82 @@
+.page {
+  padding: var(--space-8) var(--space-4);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.stats {
+  display: flex;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.statLabel {
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  font-size: var(--type-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.timerContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressRing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.displayOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instructions {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+  margin-top: var(--space-4);
+}
+
+.instructions p {
+  margin: var(--space-1) 0;
+}

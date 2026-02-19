@@ -1,0 +1,30 @@
+/* Deep Ocean Aurora Color Palette */
+:root {
+  /* Background Scale */
+  --ocean-deep: #0A1628;
+  --ocean-dark: #1A2942;
+  --ocean-mid: #2D4263;
+  --ocean-light: #4A6FA5;
+  --ocean-bright: #6B9BD1;
+
+  /* Accent Colors */
+  --aurora-cyan: #00D9FF;
+  --aurora-purple: #7B2CBF;
+  --aurora-lavender: #C77DFF;
+  --aurora-pink: #E0AAFF;
+
+  /* Semantic Colors */
+  --semantic-success: #10B981;
+  --semantic-warning: #F59E0B;
+  --semantic-error: #EF4444;
+
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(20px);
+}
