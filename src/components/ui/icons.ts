@@ -13,6 +13,7 @@ export { SkipForward as SkipIcon } from 'lucide-react';
 export { Square as StopIcon } from 'lucide-react';
 export { Flag as FlagIcon } from 'lucide-react';
 export { Maximize as MaximizeIcon } from 'lucide-react';
+export { Settings as SettingsIcon } from 'lucide-react';
 
 // Timer types
 export { Clock as ClockIcon } from 'lucide-react';
@@ -25,7 +26,6 @@ export { Watch as WatchIcon } from 'lucide-react';
 export { Home as HomeIcon } from 'lucide-react';
 export { Pin as PinIcon } from 'lucide-react';
 export { PinOff as UnpinIcon } from 'lucide-react';
-export { Settings as SettingsIcon } from 'lucide-react';
 export { Menu as MenuIcon } from 'lucide-react';
 export { X as CloseIcon } from 'lucide-react';
 
@@ -37,7 +37,7 @@ export { Minimize as ExitFullscreenIcon } from 'lucide-react';
 export { Sun as LightModeIcon } from 'lucide-react';
 export { Moon as DarkModeIcon } from 'lucide-react';
 export { Keyboard as ShortcutsIcon } from 'lucide-react';
-export { Plus as AddIcon } from 'lucide-react';
+export { Plus as PlusIcon } from 'lucide-react';
 export { Trash2 as DeleteIcon } from 'lucide-react';
 export { ChevronDown as ExpandIcon } from 'lucide-react';
 export { ChevronUp as CollapseIcon } from 'lucide-react';
@@ -48,7 +48,7 @@ export { Coffee as CoffeeIcon } from 'lucide-react';
 export { Wind as WindIcon } from 'lucide-react';
 export { Brain as BrainIcon } from 'lucide-react';
 export { BookOpen as BookIcon } from 'lucide-react';
-export { ChefHat as CookingIcon } from 'lucide-react';
+export { ChefHat as ChefHatIcon } from 'lucide-react';
 export { Dumbbell as ExerciseIcon } from 'lucide-react';
 export { Heart as HeartIcon } from 'lucide-react';
 export { Globe as GlobeIcon } from 'lucide-react';

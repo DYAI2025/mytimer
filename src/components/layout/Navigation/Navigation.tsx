@@ -11,7 +11,9 @@ import {
   BrainIcon, 
   TimerIcon,
   HourglassIcon,
-  WatchIcon
+  WatchIcon,
+  GlobeIcon,
+  ChefHatIcon
 } from '@/components/ui/icons';
 import styles from './Navigation.module.css';
 
@@ -23,6 +25,9 @@ const NAV_LINKS = [
   { href: '#/analog', label: 'Analog', icon: WatchIcon },
   { href: '#/digital', label: 'Digital', icon: ClockIcon },
   { href: '#/timesince', label: 'Time Since', icon: HourglassIcon },
+  { href: '#/chess', label: 'Chess', icon: ClockIcon },
+  { href: '#/world', label: 'World', icon: GlobeIcon },
+  { href: '#/cooking', label: 'Cooking', icon: ChefHatIcon },
   { href: '#/breathing', label: 'Breathing', icon: WindIcon },
 ];
 

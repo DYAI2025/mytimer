@@ -8,7 +8,9 @@ import {
   BrainIcon, 
   WindIcon, 
   WatchIcon, 
-  HourglassIcon 
+  HourglassIcon,
+  GlobeIcon,
+  ChefHatIcon
 } from '@/components/ui/icons';
 import styles from './LandingPage.module.css';
 
@@ -62,12 +64,36 @@ const FEATURED_TIMERS = [
     color: '#EF4444',
   },
   {
+    id: 'chess',
+    title: 'Chess Clock',
+    description: 'Dual timer for turn-based games',
+    icon: ClockIcon,
+    href: '#/chess',
+    color: '#6366F1',
+  },
+  {
+    id: 'world',
+    title: 'World Clock',
+    description: 'Time across multiple timezones',
+    icon: GlobeIcon,
+    href: '#/world',
+    color: '#14B8A6',
+  },
+  {
+    id: 'cooking',
+    title: 'Cooking Timer',
+    description: 'Multiple timers for cooking',
+    icon: ChefHatIcon,
+    href: '#/cooking',
+    color: '#F97316',
+  },
+  {
     id: 'breathing',
     title: 'Breathing',
     description: 'Guided breathing exercises for relaxation',
     icon: WindIcon,
     href: '#/breathing',
-    color: '#14B8A6',
+    color: '#06B6D4',
   },
 ];
 

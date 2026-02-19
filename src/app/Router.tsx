@@ -29,6 +29,9 @@ const BreathingTimer = lazy(() => import('@/pages/timer/BreathingTimer'));
 const AnalogTimer = lazy(() => import('@/pages/timer/AnalogTimer'));
 const DigitalClock = lazy(() => import('@/pages/timer/DigitalClock'));
 const TimeSince = lazy(() => import('@/pages/timer/TimeSince'));
+const ChessClock = lazy(() => import('@/pages/timer/ChessClock'));
+const WorldClock = lazy(() => import('@/pages/timer/WorldClock'));
+const CookingTimer = lazy(() => import('@/pages/timer/CookingTimer'));
 
 // Simple hash router
 function useHashRouter() {
@@ -71,6 +74,12 @@ export function Router() {
         return <DigitalClock />;
       case '/timesince':
         return <TimeSince />;
+      case '/chess':
+        return <ChessClock />;
+      case '/world':
+        return <WorldClock />;
+      case '/cooking':
+        return <CookingTimer />;
       default:
         return (
           <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>

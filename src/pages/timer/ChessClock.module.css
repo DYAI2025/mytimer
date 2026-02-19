@@ -1,0 +1,230 @@
+.page {
+  padding: var(--space-6) var(--space-4);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--space-4);
+}
+
+.modalContent {
+  background: var(--ocean-dark);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  width: 100%;
+  max-width: 320px;
+}
+
+.modalContent h3 {
+  font-size: var(--type-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.inputGroup label {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+}
+
+.inputGroup input {
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--type-lg);
+  text-align: center;
+}
+
+.modalButtons {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.primaryBtn {
+  flex: 1;
+  padding: var(--space-3);
+  background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-purple));
+  color: var(--ocean-deep);
+  font-weight: var(--font-bold);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.secondaryBtn {
+  flex: 1;
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+/* Players Container */
+.playersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.player:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.player.active {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+}
+
+.piece {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+  color: #E2E8F0;
+}
+
+.piece.black {
+  color: #64748B;
+}
+
+.playerLabel {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-2);
+}
+
+.playerTime {
+  font-family: var(--font-mono);
+  font-size: var(--type-3xl);
+  font-weight: var(--font-light);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.active .playerTime {
+  color: var(--aurora-cyan);
+  text-shadow: var(--timer-glow);
+}
+
+.tapHint {
+  position: absolute;
+  bottom: var(--space-3);
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.player:hover .tapHint {
+  opacity: 1;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: var(--type-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.controlBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Instructions */
+.instructions {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+}
+
+.instructions p {
+  margin: var(--space-1) 0;
+}
+
+@media (min-width: 640px) {
+  .playersContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .player {
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+  }
+
+  .controls {
+    width: 100%;
+  }
+}
