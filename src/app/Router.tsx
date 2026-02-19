@@ -26,6 +26,9 @@ const CountdownTimer = lazy(() => import('@/pages/timer/CountdownTimer'));
 const PomodoroTimer = lazy(() => import('@/pages/timer/PomodoroTimer'));
 const StopwatchTimer = lazy(() => import('@/pages/timer/StopwatchTimer'));
 const BreathingTimer = lazy(() => import('@/pages/timer/BreathingTimer'));
+const AnalogTimer = lazy(() => import('@/pages/timer/AnalogTimer'));
+const DigitalClock = lazy(() => import('@/pages/timer/DigitalClock'));
+const TimeSince = lazy(() => import('@/pages/timer/TimeSince'));
 
 // Simple hash router
 function useHashRouter() {
@@ -62,6 +65,12 @@ export function Router() {
         return <StopwatchTimer />;
       case '/breathing':
         return <BreathingTimer />;
+      case '/analog':
+        return <AnalogTimer />;
+      case '/digital':
+        return <DigitalClock />;
+      case '/timesince':
+        return <TimeSince />;
       default:
         return (
           <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>

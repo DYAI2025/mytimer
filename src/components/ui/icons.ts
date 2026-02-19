@@ -12,12 +12,14 @@ export { RotateCcw as RotateCcwIcon } from 'lucide-react';
 export { SkipForward as SkipIcon } from 'lucide-react';
 export { Square as StopIcon } from 'lucide-react';
 export { Flag as FlagIcon } from 'lucide-react';
+export { Maximize as MaximizeIcon } from 'lucide-react';
 
 // Timer types
 export { Clock as ClockIcon } from 'lucide-react';
 export { Timer as TimerIcon } from 'lucide-react';
 export { Hourglass as HourglassIcon } from 'lucide-react';
 export { AlarmClock as AlarmClockIcon } from 'lucide-react';
+export { Watch as WatchIcon } from 'lucide-react';
 
 // Navigation
 export { Home as HomeIcon } from 'lucide-react';

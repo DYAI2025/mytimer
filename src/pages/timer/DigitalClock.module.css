@@ -1,0 +1,110 @@
+.page {
+  padding: var(--space-8) var(--space-4);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.clockContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: var(--type-4xl);
+  font-weight: var(--font-light);
+  color: var(--aurora-cyan);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  transition: text-shadow 0.1s ease;
+}
+
+@media (min-width: 768px) {
+  .time {
+    font-size: var(--type-5xl);
+  }
+}
+
+.date {
+  font-size: var(--type-lg);
+  color: var(--text-secondary);
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.toggle input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--aurora-cyan);
+}
+
+.toggle span {
+  color: var(--text-secondary);
+  font-size: var(--type-sm);
+}
+
+.fullscreenBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: var(--type-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.fullscreenBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.timezone {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+}

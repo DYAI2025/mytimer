@@ -3,14 +3,26 @@
  */
 
 import { useState } from 'react';
-import { MenuIcon, CloseIcon, ClockIcon, WindIcon, BrainIcon, TimerIcon } from '@/components/ui/icons';
+import { 
+  MenuIcon, 
+  CloseIcon, 
+  ClockIcon, 
+  WindIcon, 
+  BrainIcon, 
+  TimerIcon,
+  HourglassIcon,
+  WatchIcon
+} from '@/components/ui/icons';
 import styles from './Navigation.module.css';
 
 const NAV_LINKS = [
   { href: '#/', label: 'Home', icon: ClockIcon },
   { href: '#/countdown', label: 'Countdown', icon: TimerIcon },
   { href: '#/pomodoro', label: 'Pomodoro', icon: BrainIcon },
-  { href: '#/stopwatch', label: 'Stopwatch', icon: ClockIcon },
+  { href: '#/stopwatch', label: 'Stopwatch', icon: HourglassIcon },
+  { href: '#/analog', label: 'Analog', icon: WatchIcon },
+  { href: '#/digital', label: 'Digital', icon: ClockIcon },
+  { href: '#/timesince', label: 'Time Since', icon: HourglassIcon },
   { href: '#/breathing', label: 'Breathing', icon: WindIcon },
 ];
 

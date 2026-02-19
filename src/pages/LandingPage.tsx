@@ -2,7 +2,14 @@
  * Landing Page
  */
 
-import { TimerIcon, ClockIcon, BrainIcon, WindIcon } from '@/components/ui/icons';
+import { 
+  TimerIcon, 
+  ClockIcon, 
+  BrainIcon, 
+  WindIcon, 
+  WatchIcon, 
+  HourglassIcon 
+} from '@/components/ui/icons';
 import styles from './LandingPage.module.css';
 
 const FEATURED_TIMERS = [
@@ -23,12 +30,36 @@ const FEATURED_TIMERS = [
     color: '#F59E0B',
   },
   {
+    id: 'analog',
+    title: 'Analog',
+    description: 'Visual countdown with animated clock face',
+    icon: WatchIcon,
+    href: '#/analog',
+    color: '#EC4899',
+  },
+  {
     id: 'stopwatch',
     title: 'Stopwatch',
     description: 'Track elapsed time with lap recording',
-    icon: ClockIcon,
+    icon: HourglassIcon,
     href: '#/stopwatch',
     color: '#10B981',
+  },
+  {
+    id: 'digital',
+    title: 'Digital Clock',
+    description: 'Current time with 12/24h format',
+    icon: ClockIcon,
+    href: '#/digital',
+    color: '#8B5CF6',
+  },
+  {
+    id: 'timesince',
+    title: 'Time Since',
+    description: 'Track time elapsed since an event',
+    icon: HourglassIcon,
+    href: '#/timesince',
+    color: '#EF4444',
   },
   {
     id: 'breathing',
@@ -36,7 +67,7 @@ const FEATURED_TIMERS = [
     description: 'Guided breathing exercises for relaxation',
     icon: WindIcon,
     href: '#/breathing',
-    color: '#8B5CF6',
+    color: '#14B8A6',
   },
 ];
 
@@ -72,7 +103,7 @@ export default function LandingPage() {
       {/* Featured Timers Section */}
       <section className={styles.featured}>
         <div className="container">
-          <h2 className={styles.sectionTitle}>Popular Timers</h2>
+          <h2 className={styles.sectionTitle}>All Timers</h2>
           <div className={styles.timerGrid}>
             {FEATURED_TIMERS.map((timer) => (
               <a
