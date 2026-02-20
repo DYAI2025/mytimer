@@ -6,23 +6,24 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Pomodoro Timer - Positive Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/timer/pomodoro');
+    await page.goto('/#/pomodoro');
   });
 
   test('DoD: Does start button start the pomodoro timer?', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await expect(startButton).toBeVisible();
     
     await startButton.click();
     
-    const pauseButton = page.getByRole('button', { name: /pause/i });
+    const pauseButton = page.getByRole('button', { name: 'Pause' });
     await expect(pauseButton).toBeVisible();
   });
 
   test('DoD: Does timer count down during work phase?', async ({ page }) => {
-    const timeDisplay = page.locator('[class*="time"], [class*="display"]').first();
+    const timeDisplay = page.getByRole('timer');
+    await expect(timeDisplay).toBeVisible();
     
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await startButton.click();
     
     // Get initial time
@@ -37,44 +38,44 @@ test.describe('Pomodoro Timer - Positive Tests', () => {
   });
 
   test('DoD: Does timer stop on pause?', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await startButton.click();
     
     await page.waitForTimeout(1000);
     
-    const pauseButton = page.getByRole('button', { name: /pause/i });
+    const pauseButton = page.getByRole('button', { name: 'Pause' });
     await pauseButton.click();
     
-    const resumeButton = page.getByRole('button', { name: /resume/i });
+    const resumeButton = page.getByRole('button', { name: 'Resume' });
     await expect(resumeButton).toBeVisible();
   });
 
   test('DoD: Can timer proceed after resume?', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await startButton.click();
     
     await page.waitForTimeout(1000);
     
-    const pauseButton = page.getByRole('button', { name: /pause/i });
+    const pauseButton = page.getByRole('button', { name: 'Pause' });
     await pauseButton.click();
     
-    const resumeButton = page.getByRole('button', { name: /resume/i });
+    const resumeButton = page.getByRole('button', { name: 'Resume' });
     await resumeButton.click();
     
     await expect(pauseButton).toBeVisible();
   });
 
   test('DoD: Can timer be reset?', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await startButton.click();
     
     await page.waitForTimeout(2000);
     
-    const resetButton = page.getByRole('button', { name: /reset/i });
+    const resetButton = page.getByRole('button', { name: 'Reset' });
     await resetButton.click();
     
     // Should show work phase time (25:00)
-    const timeDisplay = page.locator('[class*="time"], [class*="display"]').first();
+    const timeDisplay = page.getByRole('timer');
     const text = await timeDisplay.textContent();
     expect(text).toContain('25:00');
   });
@@ -92,26 +93,26 @@ test.describe('Pomodoro Timer - Positive Tests', () => {
 
 test.describe('Pomodoro Timer - Negative Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/timer/pomodoro');
+    await page.goto('/#/pomodoro');
   });
 
   test('Negative: No crash on excessive button clicks', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     
     for (let i = 0; i < 20; i++) {
-      await startButton.click({ force: true });
+      await startButton.click().catch(() => {});
     }
     
     await expect(page.locator('body')).toBeVisible();
   });
 
   test('Negative: Multiple pause/resume cycles', async ({ page }) => {
-    const startButton = page.getByRole('button', { name: /start/i });
+    const startButton = page.getByRole('button', { name: 'Start' });
     await startButton.click();
     
     for (let i = 0; i < 10; i++) {
-      const pauseButton = page.getByRole('button', { name: /pause/i });
-      const resumeButton = page.getByRole('button', { name: /resume/i });
+      const pauseButton = page.getByRole('button', { name: 'Pause' });
+      const resumeButton = page.getByRole('button', { name: 'Resume' });
       
       if (await pauseButton.isVisible().catch(() => false)) {
         await pauseButton.click();

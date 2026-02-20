@@ -13,7 +13,7 @@ describe('TimerEngine', () => {
   let onComplete: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
     onTick = vi.fn();
     onComplete = vi.fn();
   });
@@ -22,6 +22,13 @@ describe('TimerEngine', () => {
     engine?.destroy();
     vi.useRealTimers();
   });
+
+  // Helper to advance time and wait for RAF
+  const advanceTime = async (ms: number) => {
+    vi.advanceTimersByTime(ms);
+    // Allow RAF to execute
+    await vi.advanceTimersByTimeAsync(16);
+  };
 
   describe('POSITIVE TESTS - Countdown Timer', () => {
     it('DoD: Does start button start the timer?', () => {
@@ -37,7 +44,7 @@ describe('TimerEngine', () => {
       expect(engine.getState().isRunning).toBe(true);
     });
 
-    it('DoD: Does Timer run in normal time speed?', () => {
+    it('DoD: Does Timer run in normal time speed?', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -49,7 +56,7 @@ describe('TimerEngine', () => {
       const initialRemaining = engine.getState().remaining;
       
       // Advance by 1 second
-      vi.advanceTimersByTime(1000);
+      await advanceTime(1000);
       
       const remainingAfter1Sec = engine.getState().remaining;
       const diff = initialRemaining - remainingAfter1Sec;
@@ -59,7 +66,7 @@ describe('TimerEngine', () => {
       expect(diff).toBeLessThanOrEqual(1100);
     });
 
-    it('DoD: Does Timer count backwards for countdown?', () => {
+    it('DoD: Does Timer count backwards for countdown?', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -70,7 +77,7 @@ describe('TimerEngine', () => {
 
       const initialRemaining = engine.getState().remaining;
       
-      vi.advanceTimersByTime(5000);
+      await advanceTime(5000);
       
       const remainingAfter5Sec = engine.getState().remaining;
       expect(remainingAfter5Sec).toBeLessThan(initialRemaining);
@@ -94,7 +101,7 @@ describe('TimerEngine', () => {
       expect(engine.getState().isPaused).toBe(true);
     });
 
-    it('DoD: Does timer stop on stop/reset button?', () => {
+    it('DoD: Does timer stop on stop/reset button?', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -105,13 +112,14 @@ describe('TimerEngine', () => {
 
       expect(engine.getState().isRunning).toBe(true);
 
+      await advanceTime(2000);
       engine.reset();
 
       expect(engine.getState().isRunning).toBe(false);
       expect(engine.getState().remaining).toBe(60000);
     });
 
-    it('DoD: Can timer proceed after pause button is clicked a second time (resume)?', () => {
+    it('DoD: Can timer proceed after pause button is clicked a second time (resume)?', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -120,11 +128,11 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(5000);
+      await advanceTime(5000);
       const remainingAtPause = engine.getState().remaining;
 
       engine.pause();
-      vi.advanceTimersByTime(3000); // Wait 3 seconds while paused
+      await advanceTime(3000); // Wait 3 seconds while paused
       
       // Remaining should not change while paused
       expect(engine.getState().remaining).toBe(remainingAtPause);
@@ -133,12 +141,12 @@ describe('TimerEngine', () => {
       expect(engine.getState().isRunning).toBe(true);
       expect(engine.getState().isPaused).toBe(false);
 
-      vi.advanceTimersByTime(2000);
+      await advanceTime(2000);
       // Should now be 2 seconds less than when paused
       expect(engine.getState().remaining).toBeLessThan(remainingAtPause);
     });
 
-    it('DoD: Can timer be set back on reset button?', () => {
+    it('DoD: Can timer be set back on reset button?', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -147,7 +155,7 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(10000);
+      await advanceTime(10000);
       expect(engine.getState().remaining).toBeLessThan(60000);
 
       engine.reset();
@@ -176,7 +184,7 @@ describe('TimerEngine', () => {
       engine2.destroy();
     });
 
-    it('should complete countdown and call onComplete', () => {
+    it('should complete countdown and call onComplete', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 5000,
@@ -186,15 +194,14 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(6000);
+      await advanceTime(6000);
 
       expect(engine.getState().remaining).toBe(0);
       expect(engine.getState().isRunning).toBe(false);
       expect(onComplete).toHaveBeenCalled();
     });
 
-    // BUG-001 FIX: Elapsed time is now tracked for countdown timers
-    it('should track correct elapsed time while running', () => {
+    it('should track correct elapsed time while running', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -206,9 +213,9 @@ describe('TimerEngine', () => {
       const startedAt = engine.getState().startedAt;
       expect(startedAt).not.toBeNull();
 
-      vi.advanceTimersByTime(3000);
+      await advanceTime(3000);
 
-      // Currently fails because elapsed is not tracked for countdown timers
+      // Elapsed should be tracked for countdown timers
       expect(engine.getState().elapsed).toBeGreaterThanOrEqual(2900);
     });
   });
@@ -226,7 +233,7 @@ describe('TimerEngine', () => {
       expect(engine.getState().isRunning).toBe(true);
     });
 
-    it('DoD: Does Stopwatch count forwards?', () => {
+    it('DoD: Does Stopwatch count forwards?', async () => {
       const config: TimerEngineConfig = {
         type: 'stopwatch',
         onTick,
@@ -236,14 +243,14 @@ describe('TimerEngine', () => {
 
       const initialElapsed = engine.getState().elapsed;
       
-      vi.advanceTimersByTime(5000);
+      await advanceTime(5000);
       
       const elapsedAfter5Sec = engine.getState().elapsed;
       expect(elapsedAfter5Sec).toBeGreaterThan(initialElapsed);
       expect(elapsedAfter5Sec).toBeGreaterThanOrEqual(4900);
     });
 
-    it('DoD: Does stopwatch stop on pause button?', () => {
+    it('DoD: Does stopwatch stop on pause button?', async () => {
       const config: TimerEngineConfig = {
         type: 'stopwatch',
         onTick,
@@ -251,18 +258,18 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(5000);
+      await advanceTime(5000);
       const elapsedAtPause = engine.getState().elapsed;
 
       engine.pause();
 
-      vi.advanceTimersByTime(3000);
+      await advanceTime(3000);
       
       // Elapsed should not change while paused
       expect(engine.getState().elapsed).toBe(elapsedAtPause);
     });
 
-    it('DoD: Can stopwatch proceed after resume?', () => {
+    it('DoD: Can stopwatch proceed after resume?', async () => {
       const config: TimerEngineConfig = {
         type: 'stopwatch',
         onTick,
@@ -270,18 +277,18 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(3000);
+      await advanceTime(3000);
       const elapsedAtPause = engine.getState().elapsed;
 
       engine.pause();
       engine.resume();
 
-      vi.advanceTimersByTime(2000);
+      await advanceTime(2000);
 
       expect(engine.getState().elapsed).toBeGreaterThan(elapsedAtPause);
     });
 
-    it('DoD: Can stopwatch be reset?', () => {
+    it('DoD: Can stopwatch be reset?', async () => {
       const config: TimerEngineConfig = {
         type: 'stopwatch',
         onTick,
@@ -289,7 +296,7 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(10000);
+      await advanceTime(10000);
       expect(engine.getState().elapsed).toBeGreaterThan(0);
 
       engine.reset();
@@ -300,7 +307,7 @@ describe('TimerEngine', () => {
   });
 
   describe('NEGATIVE TESTS', () => {
-    it('Negative: Multiple rapid start clicks should not crash or create multiple timers', () => {
+    it('Negative: Multiple rapid start clicks should not crash or create multiple timers', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -315,7 +322,7 @@ describe('TimerEngine', () => {
 
       expect(engine.getState().isRunning).toBe(true);
       
-      vi.advanceTimersByTime(1000);
+      await advanceTime(1000);
       
       // Should still be running normally
       expect(engine.getState().isRunning).toBe(true);
@@ -340,7 +347,7 @@ describe('TimerEngine', () => {
       expect(engine.getState().isRunning).toBe(false);
     });
 
-    it('Negative: Multiple rapid reset clicks should not crash', () => {
+    it('Negative: Multiple rapid reset clicks should not crash', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -349,7 +356,7 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(30000);
+      await advanceTime(30000);
 
       // Click reset 30 times rapidly
       for (let i = 0; i < 30; i++) {
@@ -400,8 +407,7 @@ describe('TimerEngine', () => {
       expect(engine.getState().isRunning).toBe(true);
     });
 
-    // BUG-002 FIX: Zero duration timer now stops immediately
-    it('Zero duration should not cause infinite loop or crash', () => {
+    it('Zero duration should not cause infinite loop or crash', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 0,
@@ -410,15 +416,15 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(100);
+      await advanceTime(100);
 
-      // Currently fails: zero duration timer keeps running instead of stopping
+      // Zero duration timer should stop immediately
       expect(engine.getState().remaining).toBe(0);
       expect(engine.getState().isRunning).toBe(false);
       expect(onComplete).toHaveBeenCalled();
     });
 
-    it('Negative: Very large duration should not break', () => {
+    it('Negative: Very large duration should not break', async () => {
       const largeDuration = 24 * 60 * 60 * 1000; // 24 hours
       const config: TimerEngineConfig = {
         type: 'countdown',
@@ -428,13 +434,12 @@ describe('TimerEngine', () => {
       engine = new TimerEngine(config);
       engine.start();
 
-      vi.advanceTimersByTime(5000);
+      await advanceTime(5000);
 
       expect(engine.getState().isRunning).toBe(true);
       expect(engine.getState().remaining).toBeLessThan(largeDuration);
     });
 
-    // BUG-003 FIX: destroy() now resets isRunning state
     it('Destroy should clean up without errors', () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
@@ -449,13 +454,13 @@ describe('TimerEngine', () => {
       engine.destroy();
       engine.destroy();
 
-      // Currently fails: isRunning remains true after destroy
+      // isRunning should be false after destroy
       expect(engine.getState().isRunning).toBe(false);
     });
   });
 
   describe('Time Accuracy Tests', () => {
-    it('should maintain accuracy over multiple pause/resume cycles', () => {
+    it('should maintain accuracy over multiple pause/resume cycles', async () => {
       const config: TimerEngineConfig = {
         type: 'countdown',
         duration: 60000,
@@ -465,15 +470,15 @@ describe('TimerEngine', () => {
       engine.start();
 
       // Run for 2 seconds
-      vi.advanceTimersByTime(2000);
+      await advanceTime(2000);
       
       // Pause for 3 seconds
       engine.pause();
-      vi.advanceTimersByTime(3000);
+      await advanceTime(3000);
       
       // Resume and run for 2 more seconds
       engine.resume();
-      vi.advanceTimersByTime(2000);
+      await advanceTime(2000);
       
       // Total running time should be ~4 seconds
       const remaining = engine.getState().remaining;
@@ -483,7 +488,7 @@ describe('TimerEngine', () => {
       expect(remaining).toBeLessThanOrEqual(expectedRemaining + 100);
     });
 
-    it('should not drift significantly over time', () => {
+    it('should not drift significantly over time', async () => {
       const config: TimerEngineConfig = {
         type: 'stopwatch',
         onTick,
@@ -492,7 +497,7 @@ describe('TimerEngine', () => {
       engine.start();
 
       // Run for 10 simulated seconds
-      vi.advanceTimersByTime(10000);
+      await advanceTime(10000);
 
       const elapsed = engine.getState().elapsed;
       

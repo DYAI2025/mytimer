@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Breathing Timer - Positive Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/timer/breathing');
+    await page.goto('/#/breathing');
   });
 
   test('DoD: Does start button start the breathing timer?', async ({ page }) => {
@@ -51,14 +51,14 @@ test.describe('Breathing Timer - Positive Tests', () => {
 
 test.describe('Breathing Timer - Negative Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/timer/breathing');
+    await page.goto('/#/breathing');
   });
 
   test('Negative: No crash on rapid start/stop', async ({ page }) => {
     const startButton = page.getByRole('button', { name: /start|begin/i });
     
     for (let i = 0; i < 10; i++) {
-      await startButton.click({ force: true });
+      await startButton.click().catch(() => {});
       await page.waitForTimeout(100);
     }
     

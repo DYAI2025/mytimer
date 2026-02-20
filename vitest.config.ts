@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'node',
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    pool: 'forks', // Use forks to isolate tests with fake timers
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src/domain/**/*.ts', 'src/hooks/**/*.ts'],

@@ -3,12 +3,28 @@
  */
 
 // Mock requestAnimationFrame for Node.js environment
+// This version works with both real and fake timers
+let rafIdCounter = 0;
+const rafCallbacks = new Map<number, FrameRequestCallback>();
+
 global.requestAnimationFrame = (callback: FrameRequestCallback): number => {
-  return setTimeout(() => callback(Date.now()), 16) as unknown as number;
+  const id = ++rafIdCounter;
+  rafCallbacks.set(id, callback);
+  
+  // Use setTimeout to trigger the callback
+  // When using fake timers, tests must call vi.advanceTimersByTime() to execute
+  setTimeout(() => {
+    if (rafCallbacks.has(id)) {
+      rafCallbacks.delete(id);
+      callback(Date.now());
+    }
+  }, 16);
+  
+  return id;
 };
 
 global.cancelAnimationFrame = (id: number): void => {
-  clearTimeout(id);
+  rafCallbacks.delete(id);
 };
 
 // Mock performance.now() if not available
