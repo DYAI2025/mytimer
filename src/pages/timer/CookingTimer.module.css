@@ -1,3 +1,6 @@
+/* Cooking Timer - Circular Progress Cards with Emoji Prominence */
+/* Inspired by: Skeuomorphic Timer + Widget Dashboard */
+
 .page {
   padding: var(--space-6) var(--space-4);
   min-height: calc(100vh - 64px);
@@ -33,10 +36,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: var(--type-sm);
   cursor: pointer;
@@ -44,13 +47,14 @@
 }
 
 .presetBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
-  border-color: var(--aurora-cyan);
+  border-color: rgba(0, 217, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .presetBtn span {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 /* Custom Input */
@@ -68,9 +72,10 @@
   padding: var(--space-3);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: var(--type-base);
+  padding-left: var(--space-4);
 }
 
 .minuteInput {
@@ -78,7 +83,7 @@
   padding: var(--space-3);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: var(--type-base);
@@ -99,14 +104,14 @@
   height: 44px;
   background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-purple));
   color: var(--ocean-deep);
-  border-radius: var(--radius-md);
+  border-radius: 50%;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .addBtn:hover:not(:disabled) {
-  transform: scale(1.05);
-  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
 }
 
 .addBtn:disabled {
@@ -117,48 +122,71 @@
 /* Timers Grid */
 .timersGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--space-4);
 }
 
 .timerCard {
-  padding: var(--space-4);
-  background: rgba(255, 255, 255, 0.03);
+  padding: var(--space-5);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-xl);
-  border-left: 4px solid var(--timer-color, var(--aurora-cyan));
-  transition: all var(--transition-fast);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colored top accent line */
+.timerCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--timer-color, var(--aurora-cyan));
+  border-radius: 3px 3px 0 0;
 }
 
 .timerCard:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .timerCard.done {
-  animation: pulse 1s ease-in-out infinite;
-  border-left-color: var(--semantic-error);
+  animation: doneGlow 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes doneGlow {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.2);
   }
   50% {
-    box-shadow: 0 0 20px 5px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+    border-color: rgba(16, 185, 129, 0.4);
   }
+}
+
+.timerCard.done::before {
+  background: var(--semantic-success);
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-3);
+  width: 100%;
 }
 
 .timerName {
   font-size: var(--type-sm);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-bold);
   color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -167,46 +195,72 @@
 
 .removeBtn {
   padding: var(--space-1);
-  background: rgba(239, 68, 68, 0.1);
-  border-radius: var(--radius-sm);
-  color: #EF4444;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: var(--radius-md);
+  color: rgba(239, 68, 68, 0.6);
   cursor: pointer;
   transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.timerCard:hover .removeBtn {
+  opacity: 1;
 }
 
 .removeBtn:hover {
   background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
 }
 
+/* Circular Progress Ring */
 .progressBar {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  margin-bottom: var(--space-3);
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.progressRingSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progressTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 4;
+}
+
+.progressArc {
+  fill: none;
+  stroke: var(--timer-color, var(--aurora-cyan));
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+  filter: drop-shadow(0 0 4px var(--timer-color, rgba(0, 217, 255, 0.3)));
 }
 
 .progressFill {
-  height: 100%;
-  background: var(--timer-color, var(--aurora-cyan));
-  border-radius: var(--radius-full);
-  transition: width 0.3s ease;
+  display: none;
 }
 
 .time {
   font-family: var(--font-mono);
-  font-size: var(--type-2xl);
+  font-size: var(--type-xl);
   font-weight: var(--font-light);
   color: var(--aurora-cyan);
   font-variant-numeric: tabular-nums;
-  text-align: center;
-  margin-bottom: var(--space-3);
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.timerCard.done .time {
+  color: var(--semantic-success);
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
 }
 
 .cardControls {
   display: flex;
   gap: var(--space-2);
-  justify-content: center;
 }
 
 .controlBtn {
@@ -216,8 +270,8 @@
   width: 36px;
   height: 36px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);

@@ -114,12 +114,13 @@ export default function LandingPage() {
         <div className="container">
           <div className={styles.heroContent}>
             <h1 className={styles.heroTitle}>
-              Master Your Time
-              <span className={styles.heroAccent}>Boost Your Focus</span>
+              Only Time
+              <span className={styles.heroAccent}>Just Focus</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              A collection of beautifully designed timers for every purpose.
-              From productivity to wellness, find the perfect timer for your needs.
+              A collection of simple usefull little timer tools. For work, school, university, cooking, relationships, meditation breathwork and so on.
+              <br />
+              Your time! You Decide!
             </p>
             <div className={styles.heroActions}>
               <a href="#/countdown" className={styles.primaryButton}>

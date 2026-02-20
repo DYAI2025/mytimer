@@ -1,9 +1,13 @@
+/* Countdown Timer - Minimal Stopwatch Ring with Tick Marks */
+/* Inspired by: Minimal Red Stopwatch + Circle Widget (09:43) */
+
 .page {
   padding: var(--space-8) var(--space-4);
   min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, rgba(0, 217, 255, 0.03) 0%, transparent 70%);
 }
 
 .content {
@@ -29,6 +33,7 @@
   margin-top: calc(-1 * var(--space-6));
 }
 
+/* Timer Ring Container */
 .timerContainer {
   position: relative;
   display: flex;
@@ -47,10 +52,38 @@
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+.unitLabel {
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: var(--space-1);
+}
+
+/* Tick marks ring - rendered via SVG in ProgressRing */
+.tickRing {
+  position: absolute;
+  inset: -16px;
+  border-radius: 50%;
+}
+
+/* Outer glow when running */
+.timerContainer.running .progressRing::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  box-shadow: var(--glow-medium);
+  animation: pulseGlow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Presets */
 .presets {
   display: flex;
   flex-direction: column;
@@ -67,31 +100,36 @@
 
 .presetBtn {
   padding: var(--space-2) var(--space-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: var(--type-sm);
+  font-weight: var(--font-medium);
   transition: all var(--transition-fast);
   cursor: pointer;
+  backdrop-filter: blur(8px);
 }
 
 .presetBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .presetBtn.active {
-  background: var(--aurora-cyan);
-  color: var(--ocean-deep);
-  border-color: var(--aurora-cyan);
+  background: rgba(0, 217, 255, 0.15);
+  color: var(--aurora-cyan);
+  border-color: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
 }
 
 .customBtn {
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  border: 2px dashed rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-full);
+  border: 1px dashed rgba(0, 217, 255, 0.3);
+  background: rgba(0, 217, 255, 0.05);
   color: var(--aurora-cyan);
   font-size: var(--type-sm);
   font-weight: var(--font-medium);
@@ -100,7 +138,8 @@
 }
 
 .customBtn:hover {
-  background: rgba(0, 217, 255, 0.1);
+  background: rgba(0, 217, 255, 0.12);
   border-color: var(--aurora-cyan);
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.15);
 }

@@ -1,0 +1,16 @@
+node_modules
+.git
+.vscode
+.DS_Store
+*.log
+.env.local
+.env.*.local
+coverage
+.nyc_output
+dist
+.cache
+.kombai
+openclaw-architect-skill-coach
+timer-collection
+playwright-report
+test-results

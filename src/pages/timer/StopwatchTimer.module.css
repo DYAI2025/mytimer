@@ -1,9 +1,13 @@
+/* Stopwatch - Classic Crown Design with Red Sweep */
+/* Inspired by: Classic Stopwatch Silhouette + Minimal Red Arc */
+
 .page {
   padding: var(--space-8) var(--space-4);
   min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: radial-gradient(ellipse at 50% 45%, rgba(239, 68, 68, 0.03) 0%, transparent 60%);
 }
 
 .content {
@@ -29,10 +33,129 @@
   margin-top: calc(-1 * var(--space-6));
 }
 
+/* Stopwatch Body */
 .timerContainer {
-  padding: var(--space-8);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Decorative Crown */
+.crown {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -12px;
+}
+
+.crownBtn {
+  width: 24px;
+  height: 32px;
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.3) 0%, rgba(148, 163, 184, 0.15) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px 4px 2px 2px;
+  position: relative;
+}
+
+.crownBtn::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 8px;
+  background: rgba(226, 232, 240, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 3px 3px 0 0;
+}
+
+/* Watch Face */
+.watchFace {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, rgba(15, 25, 45, 0.95) 0%, rgba(5, 12, 25, 0.98) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(0, 217, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tick marks ring */
+.watchFace::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(
+      rgba(148, 163, 184, 0.4) 0deg 1deg,
+      transparent 1deg 6deg
+    );
+  mask: radial-gradient(circle, transparent 87%, black 87.5%, black 95%, transparent 95.5%);
+  -webkit-mask: radial-gradient(circle, transparent 87%, black 87.5%, black 95%, transparent 95.5%);
+}
+
+/* Running: red sweep glow */
+.watchFace.running {
+  border-color: rgba(239, 68, 68, 0.2);
+  box-shadow:
+    inset 0 0 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(239, 68, 68, 0.1),
+    0 0 60px rgba(239, 68, 68, 0.05);
+}
+
+.watchFace.running::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: rgba(239, 68, 68, 0.6);
+  animation: sweepRotate 1s linear infinite;
+}
+
+@keyframes sweepRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.displayInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  z-index: 2;
+}
+
+.timeMain {
+  font-family: var(--font-mono);
+  font-size: var(--type-3xl);
+  font-weight: var(--font-light);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.watchFace.running .timeMain {
+  color: var(--aurora-cyan);
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.timeMs {
+  font-family: var(--font-mono);
+  font-size: var(--type-lg);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Controls */
 .controls {
   display: flex;
   align-items: center;
@@ -84,6 +207,7 @@
   color: var(--text-primary);
 }
 
+/* Laps */
 .lapsContainer {
   width: 100%;
   max-width: 400px;
@@ -111,9 +235,14 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-3) var(--space-4);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all var(--transition-fast);
+}
+
+.lapItem:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .lapNumber {
@@ -125,4 +254,16 @@
   font-family: var(--font-mono);
   font-size: var(--type-base);
   color: var(--aurora-cyan);
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.2);
+}
+
+@media (max-width: 400px) {
+  .watchFace {
+    width: 280px;
+    height: 280px;
+  }
+
+  .timeMain {
+    font-size: var(--type-2xl);
+  }
 }

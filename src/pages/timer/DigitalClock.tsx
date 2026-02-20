@@ -1,11 +1,13 @@
 /**
  * Digital Clock Page
- * Current time display with 12/24h format
+ * Retro LED display with day strip and info widgets
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { MaximizeIcon } from '@/components/ui/icons';
 import styles from './DigitalClock.module.css';
+
+const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 export default function DigitalClockTimer() {
   const [format24h, setFormat24h] = useState(true);
@@ -42,14 +44,24 @@ export default function DigitalClockTimer() {
   const m = now.getMinutes();
   const s = now.getSeconds();
   const ms = now.getMilliseconds();
+  const dayIndex = now.getDay();
+
+  const showColon = ms < 500;
 
   let timeStr: string;
+  let ampmStr = '';
   if (format24h) {
-    timeStr = `${String(h24).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const hh = String(h24).padStart(2, '0');
+    const mm = String(m).padStart(2, '0');
+    const ss = String(s).padStart(2, '0');
+    timeStr = `${hh}:${mm}:${ss}`;
   } else {
     const h12 = h24 % 12 || 12;
-    const ampm = h24 < 12 ? 'AM' : 'PM';
-    timeStr = `${String(h12).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} ${ampm}`;
+    ampmStr = h24 < 12 ? 'AM' : 'PM';
+    const hh = String(h12).padStart(2, '0');
+    const mm = String(m).padStart(2, '0');
+    const ss = String(s).padStart(2, '0');
+    timeStr = `${hh}:${mm}:${ss}`;
   }
 
   const dateStr = new Intl.DateTimeFormat('en-US', {
@@ -59,24 +71,65 @@ export default function DigitalClockTimer() {
     day: 'numeric'
   }).format(now);
 
-  // Calculate milliseconds progress for subtle animation
-  const msProgress = ms / 1000;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const offsetParts = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    timeZoneName: 'shortOffset'
+  }).formatToParts(now);
+  const offset = offsetParts.find(p => p.type === 'timeZoneName')?.value || '';
+
+  const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  const weekNumber = Math.ceil(dayOfYear / 7);
 
   return (
     <div className={`container ${styles.page}`} ref={wrapRef}>
       <div className={styles.content}>
         <h1 className={styles.title}>Digital Clock</h1>
 
+        {/* Day Strip */}
+        <div className={styles.dayStrip}>
+          {DAYS.map((day, i) => (
+            <div
+              key={day}
+              className={`${styles.dayItem} ${i === dayIndex ? styles.active : ''}`}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+
         <div className={styles.clockContainer}>
-          <div
-            className={styles.time}
-            style={{
-              textShadow: `0 0 ${20 + msProgress * 20}px rgba(0, 217, 255, ${0.3 + msProgress * 0.2})`
-            }}
-          >
-            {timeStr}
+          {/* LED Screen */}
+          <div className={styles.screen}>
+            <div
+              className={styles.time}
+              style={{
+                textShadow: showColon
+                  ? '0 0 10px rgba(0,217,255,0.8), 0 0 30px rgba(0,217,255,0.4), 0 0 60px rgba(0,217,255,0.2)'
+                  : '0 0 10px rgba(0,217,255,0.6), 0 0 20px rgba(0,217,255,0.3)'
+              }}
+            >
+              {timeStr}
+              {!format24h && <span className={styles.ampm}>{ampmStr}</span>}
+            </div>
+            <div className={styles.date}>{dateStr}</div>
           </div>
-          <div className={styles.date}>{dateStr}</div>
+        </div>
+
+        {/* Info Widgets */}
+        <div className={styles.widgets}>
+          <div className={styles.widget}>
+            <span className={styles.widgetLabel}>Week</span>
+            <span className={styles.widgetValue}>{weekNumber}</span>
+          </div>
+          <div className={styles.widget}>
+            <span className={styles.widgetLabel}>Day</span>
+            <span className={styles.widgetValue}>{dayOfYear}</span>
+          </div>
+          <div className={styles.widget}>
+            <span className={styles.widgetLabel}>TZ</span>
+            <span className={styles.widgetValue}>{offset}</span>
+          </div>
         </div>
 
         <div className={styles.controls}>
@@ -95,7 +148,7 @@ export default function DigitalClockTimer() {
         </div>
 
         <div className={styles.timezone}>
-          <span>Your timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+          <span>{tz}</span>
         </div>
       </div>
     </div>

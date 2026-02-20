@@ -1,9 +1,13 @@
+/* Analog Countdown Timer - Neon Clock with Gear Texture */
+/* Inspired by: Futuristic Neon Gears + Classic Stopwatch */
+
 .page {
   padding: var(--space-6) var(--space-4);
   min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, rgba(0, 217, 255, 0.03) 0%, transparent 60%);
 }
 
 .content {
@@ -12,7 +16,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .title {
@@ -28,9 +32,13 @@
 
 .hms {
   font-family: var(--font-mono);
-  font-size: var(--type-2xl);
+  font-size: var(--type-3xl);
   color: var(--aurora-cyan);
   font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 0 12px rgba(0, 217, 255, 0.5),
+    0 0 30px rgba(0, 217, 255, 0.2);
+  letter-spacing: 0.03em;
 }
 
 .meta {
@@ -39,21 +47,49 @@
   justify-content: center;
   font-size: var(--type-sm);
   color: var(--text-muted);
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
 }
 
+/* Canvas Container - Outer neon ring */
 .canvasContainer {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   aspect-ratio: 1;
+  position: relative;
+}
+
+/* Outer decorative ring */
+.canvasContainer::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 217, 255, 0.12);
+  box-shadow:
+    0 0 20px rgba(0, 217, 255, 0.06),
+    inset 0 0 20px rgba(0, 217, 255, 0.04);
+  pointer-events: none;
+}
+
+/* Inner ambient glow */
+.canvasContainer::after {
+  content: '';
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.03) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .canvas {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  position: relative;
+  z-index: 1;
 }
 
+/* Controls */
 .controls {
   display: flex;
   gap: var(--space-3);
@@ -72,14 +108,18 @@
   min-height: 44px;
 }
 
+.button:hover {
+  transform: translateY(-2px);
+}
+
 .primary {
   background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-purple));
   color: var(--ocean-deep);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
 }
 
 .primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.4);
 }
 
 .secondary {
@@ -93,6 +133,7 @@
   color: var(--text-primary);
 }
 
+/* Presets */
 .presets,
 .adjustments {
   display: flex;
@@ -103,12 +144,13 @@
 
 .presetBtn,
 .adjustBtn {
-  padding: var(--space-2) var(--space-3);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: var(--type-sm);
+  font-weight: var(--font-medium);
   cursor: pointer;
   transition: all var(--transition-fast);
   min-width: 48px;
@@ -116,10 +158,13 @@
 
 .presetBtn:hover,
 .adjustBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
+/* Custom Input */
 .customInput {
   display: flex;
   flex-direction: column;
@@ -142,7 +187,7 @@
   padding: var(--space-2) var(--space-3);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   color: var(--text-primary);
   font-family: var(--font-mono);
   text-align: center;
@@ -154,13 +199,18 @@
 }
 
 .inputGroup button {
-  padding: var(--space-2) var(--space-4);
-  background: var(--aurora-cyan);
+  padding: var(--space-2) var(--space-5);
+  background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-purple));
   color: var(--ocean-deep);
-  border-radius: var(--radius-md);
-  font-weight: var(--font-medium);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-bold);
   cursor: pointer;
-  transition: opacity var(--transition-fast);
+  transition: all var(--transition-fast);
+}
+
+.inputGroup button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
 }
 
 .inputGroup button:disabled {
@@ -174,6 +224,6 @@
   }
 
   .hms {
-    font-size: var(--type-xl);
+    font-size: var(--type-2xl);
   }
 }

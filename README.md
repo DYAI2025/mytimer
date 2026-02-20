@@ -81,6 +81,9 @@ npm run build
 
 # Preview production build
 npm run preview
+
+# Deploy to Vercel (recommended)
+# See DEPLOYMENT.md for detailed instructions
 ```
 
 ### Other Commands
@@ -103,6 +106,7 @@ npm run lint
 
 - [CHANGELOG.md](./CHANGELOG.md) - Version history and release notes
 - [FEATURES.md](./FEATURES.md) - Detailed feature documentation
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Deployment guide for Vercel and other platforms
 - [.kombai/next-steps-action-plan.md](./.kombai/next-steps-action-plan.md) - Implementation roadmap
 
 ## ⌨️ Keyboard Shortcuts
@@ -206,16 +210,45 @@ Centralized design system with CSS custom properties:
 - Safari 14+
 - Edge 90+
 
+## Deployment
+
+This project is optimized for deployment on **Vercel** (recommended).
+
+Quick deploy:
+```bash
+# Push to Git and import to Vercel
+git push origin main
+
+# Or use Vercel CLI
+vercel --prod
+```
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for comprehensive deployment instructions including:
+- Vercel (recommended)
+- Netlify
+- GitHub Pages
+- Docker deployment
+
 ## Roadmap
 
-- [x] Core timers (Countdown, Pomodoro, Stopwatch)
+### Completed ✅
+- [x] 11 Core timer types (Countdown, Pomodoro, Stopwatch, Interval, Chess Clock, etc.)
+- [x] World-class UI redesign with unique timer designs
 - [x] Breathing timer with visual guides
+- [x] Sound system with 3 themes (chime, bell, beep)
+- [x] Browser notifications
+- [x] Keyboard shortcuts
+- [x] Settings panel with persistence
 - [x] PWA support
-- [ ] Additional timers (Chess Clock, Interval, World Clock)
+- [x] Vercel deployment configuration
+
+### Upcoming 🚀
 - [ ] Task management with streak tracking
 - [ ] Analytics and usage statistics
-- [ ] Sound themes and customization
-- [ ] Keyboard shortcuts overlay
+- [ ] Additional sound themes
+- [ ] Keyboard shortcuts overlay help
+- [ ] Dark/Light mode toggle
+- [ ] Export timer history
 
 ## License
 

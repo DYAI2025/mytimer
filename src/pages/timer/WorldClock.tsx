@@ -46,7 +46,7 @@ function isValidTimezone(timezone: string): boolean {
 }
 
 function getCityName(timezone: string): string {
-  return timezone.split('/')[1]?.replaceAll('_', ' ') || timezone;
+  return timezone.split('/')[1]?.replace(/_/g, ' ') || timezone;
 }
 
 export default function WorldClock() {
@@ -150,13 +150,25 @@ export default function WorldClock() {
               timeZoneName: 'shortOffset'
             }).formatToParts(now).find(p => p.type === 'timeZoneName')?.value;
 
+            // Determine day or night
+            const hourInZone = parseInt(now.toLocaleTimeString('en-US', {
+              timeZone: city.timezone,
+              hour: 'numeric',
+              hour12: false,
+            }));
+            const isDaytime = hourInZone >= 6 && hourInZone < 20;
+
             return (
-              <div key={city.id} className={styles.clockCard}>
+              <div
+                key={city.id}
+                className={`${styles.clockCard} ${isDaytime ? styles.daytime : styles.nighttime}`}
+              >
                 <div className={styles.cardHeader}>
                   <div>
                     <div className={styles.cityName}>{city.city}</div>
                     {city.label && <div className={styles.cityLabel}>{city.label}</div>}
                   </div>
+                  <span className={styles.dayNightIcon}>{isDaytime ? '☀️' : '🌙'}</span>
                   <div className={styles.offset}>{offset}</div>
                   {cities.length > 1 && (
                     <button

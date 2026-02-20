@@ -50,10 +50,24 @@ export { Brain as BrainIcon } from 'lucide-react';
 export { BookOpen as BookIcon } from 'lucide-react';
 export { ChefHat as ChefHatIcon } from 'lucide-react';
 export { Dumbbell as ExerciseIcon } from 'lucide-react';
+export { Dumbbell as DumbbellIcon } from 'lucide-react';
 export { Activity as ActivityIcon } from 'lucide-react';
 export { Heart as HeartIcon } from 'lucide-react';
 export { Globe as GlobeIcon } from 'lucide-react';
 export { Music as MusicIcon } from 'lucide-react';
+
+// Close / Remove
+export { X as XIcon } from 'lucide-react';
+
+// Volume
+export { Volume as VolumeIcon } from 'lucide-react';
+export { Volume1 as Volume1Icon } from 'lucide-react';
+export { Volume2 as Volume2Icon } from 'lucide-react';
+export { VolumeX as VolumeXIcon } from 'lucide-react';
+
+// Notifications
+export { Bell as BellIcon } from 'lucide-react';
+export { BellOff as BellOffIcon } from 'lucide-react';
 
 // Status
 export { CheckCircle as CompleteIcon } from 'lucide-react';

@@ -1,3 +1,6 @@
+/* Chess Clock - Premium Split Design with Metallic Accents */
+/* Inspired by: Vintage Gauge (metallic) + Skeuomorphic (premium feel) */
+
 .page {
   padding: var(--space-6) var(--space-4);
   min-height: calc(100vh - 64px);
@@ -26,7 +29,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,12 +38,13 @@
 }
 
 .modalContent {
-  background: var(--ocean-dark);
+  background: linear-gradient(180deg, rgba(26, 41, 66, 0.98) 0%, rgba(10, 22, 40, 0.98) 100%);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   width: 100%;
   max-width: 320px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .modalContent h3 {
@@ -72,6 +76,11 @@
   text-align: center;
 }
 
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--aurora-cyan);
+}
+
 .modalButtons {
   display: flex;
   gap: var(--space-3);
@@ -101,39 +110,70 @@
 .playersContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 0;
   width: 100%;
+  position: relative;
+}
+
+/* Gold metallic divider between players */
+.playersContainer::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.4), rgba(218, 165, 32, 0.6), rgba(218, 165, 32, 0.4), transparent);
+  z-index: 3;
+  border-radius: 2px;
 }
 
 .player {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-8);
-  background: rgba(255, 255, 255, 0.03);
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.3s ease;
   position: relative;
 }
 
+.player1 {
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-bottom: none;
+}
+
+.player2 {
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  border-top: none;
+}
+
 .player:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .player.active {
-  background: rgba(0, 217, 255, 0.1);
-  border-color: var(--aurora-cyan);
-  box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+  background: rgba(0, 217, 255, 0.06);
+  border-color: rgba(0, 217, 255, 0.2);
+}
+
+.player1.active {
+  box-shadow: 0 -10px 40px rgba(0, 217, 255, 0.1);
+}
+
+.player2.active {
+  box-shadow: 0 10px 40px rgba(0, 217, 255, 0.1);
 }
 
 .piece {
-  font-size: 4rem;
+  font-size: 3rem;
   line-height: 1;
   margin-bottom: var(--space-2);
   color: #E2E8F0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .piece.black {
@@ -141,10 +181,10 @@
 }
 
 .playerLabel {
-  font-size: var(--type-sm);
+  font-size: var(--type-xs);
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   margin-bottom: var(--space-2);
 }
 
@@ -154,11 +194,28 @@
   font-weight: var(--font-light);
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
+  transition: all 0.3s ease;
 }
 
 .active .playerTime {
   color: var(--aurora-cyan);
-  text-shadow: var(--timer-glow);
+  text-shadow:
+    0 0 15px rgba(0, 217, 255, 0.4),
+    0 0 30px rgba(0, 217, 255, 0.2);
+}
+
+/* Low time warning */
+.lowTime .playerTime {
+  color: var(--aurora-red);
+  text-shadow:
+    0 0 15px rgba(239, 68, 68, 0.4),
+    0 0 30px rgba(239, 68, 68, 0.2);
+  animation: lowTimePulse 1s ease-in-out infinite;
+}
+
+@keyframes lowTimePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 .tapHint {
@@ -205,6 +262,10 @@
   text-align: center;
   color: var(--text-muted);
   font-size: var(--type-sm);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-xl);
 }
 
 .instructions p {
@@ -214,17 +275,39 @@
 @media (min-width: 640px) {
   .playersContainer {
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+  }
+
+  .playersContainer::after {
+    left: 50%;
+    top: 10%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: auto;
+    background: linear-gradient(180deg, transparent, rgba(218, 165, 32, 0.4), rgba(218, 165, 32, 0.6), rgba(218, 165, 32, 0.4), transparent);
   }
 
   .player {
     flex: 1;
-    min-width: 200px;
-    max-width: 280px;
   }
 
-  .controls {
-    width: 100%;
+  .player1 {
+    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: none;
+  }
+
+  .player2 {
+    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: none;
+  }
+
+  .player1.active {
+    box-shadow: -10px 0 40px rgba(0, 217, 255, 0.1);
+  }
+
+  .player2.active {
+    box-shadow: 10px 0 40px rgba(0, 217, 255, 0.1);
   }
 }

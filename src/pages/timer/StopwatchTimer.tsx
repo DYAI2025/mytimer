@@ -1,12 +1,12 @@
 /**
  * Stopwatch Timer Page
+ * Classic stopwatch design with crown and red sweep
  */
 
 import { useState, useCallback } from 'react';
 import { formatTime } from '@/domain/timer/TimerEngine';
 import { useTimerEngine } from '@/hooks/useTimerEngine';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
-import { TimerDisplay } from '@/components/shared/TimerDisplay/TimerDisplay';
 import { PlayIcon, PauseIcon, FlagIcon, RotateCcwIcon } from '@/components/ui/icons';
 import styles from './StopwatchTimer.module.css';
 
@@ -56,6 +56,11 @@ export default function StopwatchTimer() {
     onLap: handleLap,
   });
 
+  // Split formatted time into main and ms parts
+  const timeParts = formattedTime.split('.');
+  const mainTime = timeParts[0];
+  const msTime = timeParts[1] || '00';
+
   return (
     <div className={`container ${styles.page}`}>
       <div className={styles.content}>
@@ -63,10 +68,18 @@ export default function StopwatchTimer() {
         <p className={styles.subtitle}>Track elapsed time with precision</p>
 
         <div className={styles.timerContainer}>
-          <TimerDisplay
-            time={formattedTime}
-            isRunning={state.isRunning}
-          />
+          {/* Decorative Crown */}
+          <div className={styles.crown}>
+            <div className={styles.crownBtn} />
+          </div>
+
+          {/* Watch Face */}
+          <div className={`${styles.watchFace} ${state.isRunning ? styles.running : ''}`}>
+            <div className={styles.displayInner}>
+              <div className={styles.timeMain}>{mainTime}</div>
+              <div className={styles.timeMs}>.{msTime}</div>
+            </div>
+          </div>
         </div>
 
         <div className={styles.controls}>

@@ -1,9 +1,13 @@
+/* Interval Timer - Dramatic Phase Color Transitions */
+/* Inspired by: Minimal Stopwatch (ring) + Neon Clock (color drama) */
+
 .page {
   padding: var(--space-6) var(--space-4);
   min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.8s ease;
 }
 
 .content {
@@ -34,9 +38,9 @@
 
 .presetBtn {
   padding: var(--space-2) var(--space-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: var(--type-sm);
   font-weight: var(--font-medium);
@@ -46,25 +50,26 @@
 }
 
 .presetBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
 }
 
 .presetBtn.active {
-  background: var(--aurora-cyan);
-  color: var(--ocean-deep);
-  border-color: var(--aurora-cyan);
+  background: rgba(0, 217, 255, 0.15);
+  color: var(--aurora-cyan);
+  border-color: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
 }
 
 .settingsBtn {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Settings Panel */
 .settings {
   width: 100%;
   padding: var(--space-4);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-xl);
   display: flex;
@@ -113,22 +118,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 280px;
-  height: 280px;
+  width: 300px;
+  height: 300px;
 }
 
 .phaseBadge {
   position: absolute;
-  top: 20%;
-  padding: var(--space-1) var(--space-3);
+  top: 18%;
+  padding: var(--space-1) var(--space-4);
   background: var(--phase-color, var(--aurora-cyan));
   color: var(--ocean-deep);
-  font-size: var(--type-sm);
+  font-size: var(--type-xs);
   font-weight: var(--font-bold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   border-radius: var(--radius-full);
   z-index: 2;
+  box-shadow: 0 0 15px var(--phase-color, rgba(0, 217, 255, 0.4));
+  transition: all 0.3s ease;
 }
 
 .time {
@@ -138,6 +145,7 @@
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
   z-index: 2;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 /* Progress Ring */
@@ -154,7 +162,7 @@
 
 .track {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.1);
+  stroke: rgba(255, 255, 255, 0.06);
   stroke-width: 6;
 }
 
@@ -163,7 +171,8 @@
   stroke: var(--phase-color, var(--aurora-cyan));
   stroke-width: 6;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
+  transition: stroke-dashoffset 0.3s ease, stroke 0.5s ease;
+  filter: drop-shadow(0 0 8px var(--phase-color, rgba(0, 217, 255, 0.4)));
 }
 
 /* Rounds */
@@ -183,26 +192,28 @@
 .roundDots {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: 6px;
   justify-content: center;
   max-width: 300px;
 }
 
 .roundDot {
-  width: 12px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 50%;
-  transition: all var(--transition-fast);
+  transition: all 0.3s ease;
 }
 
 .roundDot.completed {
   background: var(--aurora-cyan);
+  box-shadow: 0 0 6px rgba(0, 217, 255, 0.4);
 }
 
 .roundDot.active {
-  box-shadow: 0 0 10px var(--aurora-cyan);
-  transform: scale(1.2);
+  box-shadow: 0 0 12px var(--aurora-cyan);
+  transform: scale(1.3);
+  background: var(--aurora-cyan);
 }
 
 /* Controls */
@@ -251,6 +262,10 @@
   text-align: center;
   font-size: var(--type-sm);
   color: var(--text-muted);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-xl);
 }
 
 .instructions p {
@@ -259,8 +274,8 @@
 
 @media (min-width: 640px) {
   .display {
-    width: 320px;
-    height: 320px;
+    width: 340px;
+    height: 340px;
   }
 
   .time {

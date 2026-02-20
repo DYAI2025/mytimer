@@ -145,6 +145,12 @@ export default function BreathingTimer() {
               '--exhale-duration': `${pattern.exhale}s`,
             } as React.CSSProperties}
           >
+            {/* Floating particles */}
+            <div className={styles.particles}>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className={styles.particle} />
+              ))}
+            </div>
             <div className={styles.circleInner}>
               <span className={styles.phaseLabel}>{getPhaseLabel(phase)}</span>
               <span className={styles.timer}>

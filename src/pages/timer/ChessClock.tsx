@@ -56,7 +56,7 @@ export default function ChessClock() {
     if (state.activePlayer && state.startedAt) {
       const loop = () => {
         const now = Date.now();
-        const elapsed = now - state.startedAt;
+        const elapsed = now - (state.startedAt ?? now);
 
         if (state.activePlayer === 1) {
           const newTime = Math.max(0, state.player1Time - elapsed);

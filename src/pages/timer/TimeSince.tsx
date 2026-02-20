@@ -117,6 +117,12 @@ export default function TimeSince() {
         <p className={styles.subtitle}>Track elapsed time since an event started</p>
 
         <div className={styles.display}>
+          {/* Sand particles */}
+          <div className={`${styles.sandParticles} ${isRunning ? styles.active : ''}`}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className={styles.sandDot} />
+            ))}
+          </div>
           <div className={styles.time}>{formatElapsed(elapsed)}</div>
           <div className={styles.duration}>{formatDuration(elapsed)}</div>
         </div>

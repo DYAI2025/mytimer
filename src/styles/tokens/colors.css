@@ -27,4 +27,25 @@
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: blur(20px);
+
+  /* Enhanced Glow System */
+  --glow-subtle: 0 0 20px rgba(0, 217, 255, 0.15);
+  --glow-medium: 0 0 40px rgba(0, 217, 255, 0.25);
+  --glow-intense: 0 0 60px rgba(0, 217, 255, 0.4), 0 0 120px rgba(0, 217, 255, 0.15);
+  --glow-red: 0 0 40px rgba(239, 68, 68, 0.3);
+  --glow-green: 0 0 40px rgba(16, 185, 129, 0.3);
+  --glow-amber: 0 0 40px rgba(245, 158, 11, 0.3);
+  --glow-purple: 0 0 40px rgba(139, 92, 246, 0.3);
+
+  /* Warm & metallic accents */
+  --aurora-amber: #F59E0B;
+  --aurora-red: #EF4444;
+  --aurora-emerald: #10B981;
+  --aurora-gold: #DAA520;
+  --aurora-indigo: #6366F1;
+
+  /* Enhanced glass */
+  --glass-dark: rgba(10, 22, 40, 0.85);
+  --glass-frost: rgba(255, 255, 255, 0.06);
+  --glass-border-glow: rgba(0, 217, 255, 0.15);
 }

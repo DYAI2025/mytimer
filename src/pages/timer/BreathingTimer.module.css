@@ -1,9 +1,13 @@
+/* Breathing Timer - Organic Ripple Flow with Particles */
+/* Inspired by: Dramatic Hourglass (mood) + Neon Clock (glow rings) */
+
 .page {
   padding: var(--space-8) var(--space-4);
   min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 2s ease;
 }
 
 .content {
@@ -34,9 +38,9 @@
 
 .patternBtn {
   padding: var(--space-2) var(--space-4);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: var(--type-sm);
   cursor: pointer;
@@ -44,26 +48,30 @@
 }
 
 .patternBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
 }
 
 .patternBtn.active {
-  background: var(--aurora-cyan);
-  color: var(--ocean-deep);
-  border-color: var(--aurora-cyan);
+  background: rgba(0, 217, 255, 0.15);
+  color: var(--aurora-cyan);
+  border-color: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
 }
 
+/* Breathing Container */
 .breathingContainer {
-  padding: var(--space-8);
+  padding: var(--space-6);
+  position: relative;
 }
 
+/* Outer ripple rings */
 .breathingCircle {
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(0, 217, 255, 0.2), transparent 70%);
-  border: 2px solid rgba(0, 217, 255, 0.3);
+  background: radial-gradient(circle at center, rgba(0, 217, 255, 0.12) 0%, transparent 70%);
+  border: 2px solid rgba(0, 217, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,31 +79,118 @@
   position: relative;
 }
 
+/* Ripple ring 1 */
 .breathingCircle::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -20px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  border-top-color: var(--aurora-cyan);
+  border: 1px solid rgba(0, 217, 255, 0.1);
   opacity: 0.5;
+  transition: all var(--inhale-duration, 4s) ease-in-out;
+}
+
+/* Ripple ring 2 */
+.breathingCircle::after {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 217, 255, 0.05);
+  opacity: 0.3;
+  transition: all var(--inhale-duration, 4s) ease-in-out;
+}
+
+/* Floating particles */
+.particles {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--aurora-cyan);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.breathingCircle.inhale .particle {
+  animation: particleInward var(--inhale-duration, 4s) ease-in-out forwards;
+}
+
+.breathingCircle.exhale .particle {
+  animation: particleOutward var(--exhale-duration, 4s) ease-in-out forwards;
+}
+
+.particle:nth-child(1) { top: 0; left: 50%; animation-delay: 0s; }
+.particle:nth-child(2) { top: 15%; right: 10%; animation-delay: 0.2s; }
+.particle:nth-child(3) { top: 50%; right: 0; animation-delay: 0.4s; }
+.particle:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 0.6s; }
+.particle:nth-child(5) { bottom: 0; left: 50%; animation-delay: 0.8s; }
+.particle:nth-child(6) { bottom: 15%; left: 10%; animation-delay: 1s; }
+.particle:nth-child(7) { top: 50%; left: 0; animation-delay: 1.2s; }
+.particle:nth-child(8) { top: 15%; left: 10%; animation-delay: 1.4s; }
+
+@keyframes particleInward {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.3) translateY(20px); }
+}
+
+@keyframes particleOutward {
+  0% { opacity: 0; transform: scale(0.3); }
+  100% { opacity: 0.6; transform: scale(1) translateY(-15px); }
 }
 
 .breathingCircle.inhale {
-  transform: scale(1.2);
-  background: radial-gradient(circle at center, rgba(0, 217, 255, 0.3), transparent 70%);
-  transition: transform var(--inhale-duration, 4s) ease-in-out;
+  transform: scale(1.25);
+  background: radial-gradient(circle at center, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
+  border-color: rgba(0, 217, 255, 0.35);
+  box-shadow: 0 0 40px rgba(0, 217, 255, 0.15), 0 0 80px rgba(0, 217, 255, 0.05);
+  transition: transform var(--inhale-duration, 4s) ease-in-out,
+              background 0.5s ease,
+              border-color 0.5s ease,
+              box-shadow 0.5s ease;
+}
+
+.breathingCircle.inhale::before {
+  inset: -30px;
+  opacity: 0.7;
+}
+
+.breathingCircle.inhale::after {
+  inset: -55px;
+  opacity: 0.4;
 }
 
 .breathingCircle.exhale {
   transform: scale(1);
-  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.2), transparent 70%);
-  transition: transform var(--exhale-duration, 4s) ease-in-out;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+  transition: transform var(--exhale-duration, 4s) ease-in-out,
+              background 0.5s ease,
+              border-color 0.5s ease,
+              box-shadow 0.5s ease;
+}
+
+.breathingCircle.exhale::before {
+  inset: -15px;
+  border-color: rgba(139, 92, 246, 0.1);
+}
+
+.breathingCircle.exhale::after {
+  inset: -30px;
+  border-color: rgba(139, 92, 246, 0.05);
 }
 
 .breathingCircle.hold,
 .breathingCircle.hold-empty {
-  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.2), transparent 70%);
+  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.1);
 }
 
 .circleInner {
@@ -103,6 +198,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
+  z-index: 2;
 }
 
 .phaseLabel {
@@ -110,7 +206,7 @@
   font-weight: var(--font-medium);
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
 }
 
 .timer {
@@ -118,6 +214,7 @@
   font-size: var(--type-3xl);
   color: var(--aurora-cyan);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
 }
 
 .stats {
@@ -130,6 +227,10 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
+  padding: var(--space-3) var(--space-5);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-full);
 }
 
 .statLabel {
@@ -195,6 +296,10 @@
   color: var(--text-muted);
   font-size: var(--type-sm);
   max-width: 400px;
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-xl);
 }
 
 .instructions p {

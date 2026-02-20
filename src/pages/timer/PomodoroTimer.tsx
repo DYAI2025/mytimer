@@ -116,25 +116,47 @@ export default function PomodoroTimer() {
     onReset: handleReset,
   });
 
+  // Generate session dots (show 4 per cycle)
+  const cyclePosition = completedPomodoros % 4;
+  const sessionDots = Array.from({ length: 4 }, (_, i) => {
+    if (i < cyclePosition) return 'completed';
+    if (i === cyclePosition && phase === 'work') return 'current';
+    return 'empty';
+  });
+
   return (
     <div className={`container ${styles.page}`}>
       <div className={styles.content}>
         <h1 className={styles.title}>Pomodoro Timer</h1>
-        
+
+        {/* Session Dots */}
+        <div className={styles.sessions}>
+          {sessionDots.map((status, i) => (
+            <div
+              key={i}
+              className={`${styles.sessionDot} ${status === 'completed' ? styles.completed : ''} ${status === 'current' ? styles.current : ''}`}
+            />
+          ))}
+          <span className={styles.sessionLabel}>{completedPomodoros} done</span>
+        </div>
+
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>Completed Today</span>
+            <span className={styles.statLabel}>Completed</span>
             <span className={styles.statValue}>{completedPomodoros}</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>Current Phase</span>
+            <span className={styles.statLabel}>Phase</span>
             <span className={styles.statValue} style={{ color: currentPhase.color }}>
               {currentPhase.label}
             </span>
           </div>
         </div>
 
-        <div className={styles.timerContainer}>
+        <div
+          className={styles.timerContainer}
+          style={{ '--phase-glow': `rgba(${phase === 'work' ? '0,217,255' : phase === 'shortBreak' ? '16,185,129' : '139,92,246'}, 0.1)` } as React.CSSProperties}
+        >
           <div className={styles.progressRing}>
             <ProgressRing 
               progress={progress} 
@@ -143,9 +165,11 @@ export default function PomodoroTimer() {
               color={currentPhase.color}
             />
             <div className={styles.displayOverlay}>
+              <div className={styles.phaseLabel} style={{ color: currentPhase.color }}>
+                {currentPhase.label}
+              </div>
               <TimerDisplay
                 time={formattedTime}
-                label={currentPhase.label}
                 isRunning={state.isRunning}
               />
             </div>
@@ -163,7 +187,7 @@ export default function PomodoroTimer() {
 
         <div className={styles.instructions}>
           <p>Work for 25 minutes, then take a 5-minute break.</p>
-          <p>After 4 pomodoros, take a longer 15-minute break.</p>
+          <p>After 4 pomodoros, take a longer 20-minute break.</p>
         </div>
       </div>
     </div>

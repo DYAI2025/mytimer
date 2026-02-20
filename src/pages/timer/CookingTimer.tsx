@@ -181,6 +181,9 @@ export default function CookingTimer() {
               const progress = timer.duration > 0 ? (timer.duration - timer.remaining) / timer.duration : 0;
               const isDone = timer.remaining === 0;
 
+              const circumference = 2 * Math.PI * 42;
+              const dashOffset = circumference * (1 - progress);
+
               return (
                 <div
                   key={timer.id}
@@ -198,11 +201,21 @@ export default function CookingTimer() {
                     </button>
                   </div>
 
+                  {/* Circular Progress Ring */}
                   <div className={styles.progressBar}>
-                    <div
-                      className={styles.progressFill}
-                      style={{ width: `${progress * 100}%` }}
-                    />
+                    <svg className={styles.progressRingSvg} viewBox="0 0 100 100">
+                      <circle className={styles.progressTrack} cx="50" cy="50" r="42" />
+                      <circle
+                        className={styles.progressArc}
+                        cx="50"
+                        cy="50"
+                        r="42"
+                        style={{
+                          strokeDasharray: `${circumference}`,
+                          strokeDashoffset: `${dashOffset}`,
+                        }}
+                      />
+                    </svg>
                   </div>
 
                   <div className={styles.time}>{formatTime(timer.remaining)}</div>
